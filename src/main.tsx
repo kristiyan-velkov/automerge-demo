@@ -8,7 +8,7 @@ import { App } from "./App.js";
 import "./index.css";
 
 const repo = new Repo({
-  network: [new BrowserWebSocketClientAdapter("ws://localhost:3030")],
+  network: [new BrowserWebSocketClientAdapter("wss://sync.automerge.org")],
   storage: new IndexedDBStorageAdapter("automerge-repo-demo-todo"),
 });
 
