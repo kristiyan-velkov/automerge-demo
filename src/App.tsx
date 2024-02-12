@@ -9,6 +9,7 @@ import { useRef, useState } from "react";
 
 import { Todo } from "./Todo.js";
 import { ExtendedArray, Filter, State, TodoData } from "./types.js";
+import UserForm from "./UserForm.js";
 
 export function App() {
   const { url } = useBootstrap({
@@ -58,6 +59,7 @@ export function App() {
 
   return (
     <>
+      <UserForm />
       <div className="flex h-screen pt-2 pb-96 bg-primary-50">
         <div className="m-auto w-4/5 max-w-xl border border-neutral-300 shadow-md rounded-md bg-white">
           {/* new todo form */}
