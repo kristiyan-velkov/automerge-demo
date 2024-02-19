@@ -2,6 +2,8 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useRepo } from "@automerge/automerge-repo-react-hooks";
+import { UserFormData } from "./types";
 
 // Define the validation schema using Yup
 const formSchema = Yup.object().shape({
@@ -23,13 +25,21 @@ const initialValues = {
 };
 
 const UserForm: React.FC = () => {
+  const repo = useRepo();
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={formSchema}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
-        // Here you can handle the submission, e.g., sending data to an API
+        const handle = repo.create<UserFormData>();
+        const url = handle.url;
+        handle.change((t) => {
+          t.url = url;
+          t.name = values.name;
+          t.email = values.email;
+          t.phone = Number(values.phone);
+        });
         setSubmitting(false);
       }}
     >
