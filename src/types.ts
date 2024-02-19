@@ -7,7 +7,7 @@ export interface ExtendedArray<T> extends Array<T> {
 }
 
 export interface State {
-  todos: AutomergeUrl[];
+  form: AutomergeUrl[];
 }
 
 export interface TodoData {

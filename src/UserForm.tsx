@@ -1,9 +1,9 @@
 // MyForm.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useRepo } from "@automerge/automerge-repo-react-hooks";
-import { UserFormData } from "./types";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { AutomergeUrl } from "@automerge/automerge-repo";
 
 // Define the validation schema using Yup
 const formSchema = Yup.object().shape({
@@ -17,38 +17,51 @@ const formSchema = Yup.object().shape({
     .required("Phone is required"),
 });
 
-// Initial form values
-const initialValues = {
-  name: "",
-  email: "",
-  phone: "",
-};
+const UserForm: React.FC = ({ docUrl }: { docUrl: AutomergeUrl }) => {
+  const [doc, changeDoc] = useDocument(docUrl);
 
-const UserForm: React.FC = () => {
-  const repo = useRepo();
+  console.log(doc);
+
+  // Initialize form values with state or default values
+  const [initialValues, setInitialValues] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  useEffect(() => {}, [doc]);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={formSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        const handle = repo.create<UserFormData>();
-        const url = handle.url;
-        handle.change((t) => {
-          t.url = url;
-          t.name = values.name;
-          t.email = values.email;
-          t.phone = Number(values.phone);
-        });
-        setSubmitting(false);
-      }}
-    >
-      {({ isSubmitting }) => (
-        <Form className="space-y-4 max-xl">
-          <div>
+    <section className="flex h-screen pt-2 pb-60 bg-primary-50">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={formSchema}
+        onSubmit={(values, { setSubmitting }) => {
+          changeDoc((doc) => (doc.form = values));
+          //   // If the document doesn't exist, create it.
+          //   const handle = repo.create<UserFormData>();
+          //   handle.change((doc) => {
+          //     doc.name = values.name;
+          //     doc.email = values.email;
+          //     doc.phone = Number(values.phone);
+          //   });
+          // } else {
+          //   // If the document exists, update it.
+          //   changeState((doc) => {
+          //     doc.name = values.name;
+          //     doc.email = values.email;
+          //     doc.phone = Number(values.phone);
+          //   });
+
+          setSubmitting(false);
+        }}
+        className="mt-20"
+      >
+        <Form className="m-auto w-4/5 max-w-xl border border-neutral-300 shadow-md rounded-md bg-white p-10">
+          <div className="flex flex-col py-5">
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+              className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Name
             </label>
@@ -56,18 +69,24 @@ const UserForm: React.FC = () => {
               type="text"
               name="name"
               id="name"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="
+          bg-white border border-gray-300 text-gray-900 text-sm rounded-lg
+          focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+          shadow-sm
+        "
             />
             <ErrorMessage
               name="name"
               component="div"
-              className="text-red-500 text-xs italic"
+              className="text-red-600 text-xs italic"
             />
           </div>
-          <div>
+          <div className="flex flex-col py-5">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Email
             </label>
@@ -75,18 +94,24 @@ const UserForm: React.FC = () => {
               type="email"
               name="email"
               id="email"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="
+          bg-white border border-gray-300 text-gray-900 text-sm rounded-lg
+          focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+          shadow-sm
+        "
             />
             <ErrorMessage
               name="email"
               component="div"
-              className="text-red-500 text-xs italic"
+              className="text-red-600 text-xs italic"
             />
           </div>
-          <div>
+          <div className="flex flex-col py-5">
             <label
               htmlFor="phone"
-              className="block text-sm font-medium text-gray-700"
+              className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Phone
             </label>
@@ -94,24 +119,34 @@ const UserForm: React.FC = () => {
               type="text"
               name="phone"
               id="phone"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="
+          bg-white border border-gray-300 text-gray-900 text-sm rounded-lg
+          focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+          shadow-sm
+        "
             />
             <ErrorMessage
               name="phone"
               component="div"
-              className="text-red-500 text-xs italic"
+              className="text-red-600 text-xs italic"
             />
           </div>
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
           >
             Submit
           </button>
         </Form>
-      )}
-    </Formik>
+      </Formik>
+      <div className="bg-red-500 w-96 text-white p-10 text-xl flex flex-col h-screen">
+        <name>{doc && doc.form.name}</name>
+        <email>{doc && doc.form.email}</email>
+        <phone>{doc && doc.form.phone}</phone>
+      </div>
+    </section>
   );
 };
 
