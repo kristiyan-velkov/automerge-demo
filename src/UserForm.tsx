@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { AutomergeUrl } from "@automerge/automerge-repo";
+import { useHandle } from "../node_modules/@automerge/automerge-repo-react-hooks/src/useHandle";
 
 // Define the validation schema using Yup
 const formSchema = Yup.object().shape({
@@ -17,19 +18,9 @@ const formSchema = Yup.object().shape({
     .required("Phone is required"),
 });
 
-const UserForm: React.FC = ({ docUrl }: { docUrl: AutomergeUrl }) => {
-  const [doc, changeDoc] = useDocument(docUrl);
-
-  console.log(doc);
-
+const UserForm: React.FC = ({ doc, changeDoc }) => {
   // Initialize form values with state or default values
-  const [initialValues, setInitialValues] = useState({
-    name: "",
-    email: "",
-    phone: "",
-  });
-
-  useEffect(() => {}, [doc]);
+  const [initialValues, setInitialValues] = useState(doc.form);
 
   return (
     <section className="flex h-screen pt-2 pb-60 bg-primary-50">
@@ -142,9 +133,11 @@ const UserForm: React.FC = ({ docUrl }: { docUrl: AutomergeUrl }) => {
         </Form>
       </Formik>
       <div className="bg-red-500 w-96 text-white p-10 text-xl flex flex-col h-screen">
-        <name>{doc && doc.form.name}</name>
+        {/* 
+        {doc  &&}
+        <name>{doc && doc.formdoc.form.name}</name>
         <email>{doc && doc.form.email}</email>
-        <phone>{doc && doc.form.phone}</phone>
+        <phone>{doc && doc.form.phone}</phone> */}
       </div>
     </section>
   );
