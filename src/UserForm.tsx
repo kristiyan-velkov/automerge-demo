@@ -1,10 +1,7 @@
 // MyForm.tsx
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { AutomergeUrl } from "@automerge/automerge-repo";
-import { useHandle } from "../node_modules/@automerge/automerge-repo-react-hooks/src/useHandle";
 
 // Define the validation schema using Yup
 const formSchema = Yup.object().shape({
@@ -19,30 +16,13 @@ const formSchema = Yup.object().shape({
 });
 
 const UserForm: React.FC = ({ doc, changeDoc }) => {
-  // Initialize form values with state or default values
-  const [initialValues, setInitialValues] = useState(doc.form);
-
   return (
     <section className="flex h-screen pt-2 pb-60 bg-primary-50">
       <Formik
-        initialValues={initialValues}
+        initialValues={doc.form}
         validationSchema={formSchema}
         onSubmit={(values, { setSubmitting }) => {
           changeDoc((doc) => (doc.form = values));
-          //   // If the document doesn't exist, create it.
-          //   const handle = repo.create<UserFormData>();
-          //   handle.change((doc) => {
-          //     doc.name = values.name;
-          //     doc.email = values.email;
-          //     doc.phone = Number(values.phone);
-          //   });
-          // } else {
-          //   // If the document exists, update it.
-          //   changeState((doc) => {
-          //     doc.name = values.name;
-          //     doc.email = values.email;
-          //     doc.phone = Number(values.phone);
-          //   });
 
           setSubmitting(false);
         }}
@@ -133,11 +113,9 @@ const UserForm: React.FC = ({ doc, changeDoc }) => {
         </Form>
       </Formik>
       <div className="bg-red-500 w-96 text-white p-10 text-xl flex flex-col h-screen">
-        {/* 
-        {doc  &&}
-        <name>{doc && doc.formdoc.form.name}</name>
-        <email>{doc && doc.form.email}</email>
-        <phone>{doc && doc.form.phone}</phone> */}
+        <div>{doc.form.name}</div>
+        <div>{doc.form.email}</div>
+        <div>{doc.form.phone}</div>
       </div>
     </section>
   );
