@@ -21,6 +21,7 @@ const initialValues = {
 };
 
 const UserForm: React.FC = ({ doc, changeDoc }) => {
+  console.log(doc);
   return (
     <section className="flex h-screen pt-2 pb-60 bg-primary-50">
       <Formik
@@ -117,11 +118,6 @@ const UserForm: React.FC = ({ doc, changeDoc }) => {
           </button>
         </Form>
       </Formik>
-      <div className="bg-red-500 w-96 text-white p-10 text-xl flex flex-col h-screen">
-        <div>{doc.form && doc.form.name}</div>
-        <div>{doc.form && doc.form.email}</div>
-        <div>{doc.form && doc.form.phone}</div>
-      </div>
     </section>
   );
 };

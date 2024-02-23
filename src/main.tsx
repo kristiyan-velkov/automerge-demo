@@ -6,10 +6,7 @@ import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-index
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
 import App from "./App";
 import { UserFormData } from "./types";
-import {
-  DocumentIdContext,
-  DocumentIdProvider,
-} from "./context/documentIdContext";
+import { DocumentIdProvider } from "./context/documentIdContext";
 import "./index.css";
 
 const repo = new Repo({

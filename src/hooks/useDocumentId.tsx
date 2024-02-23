@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { DocumentIdContext } from "../context/documentIdContext";
+import { AutomergeUrl } from "@automerge/automerge-repo";
 
-const useDocumentId = () => {
-  const documentId = useContext(DocumentIdContext);
+const useDocumentId = (): AutomergeUrl => {
+  const documentId = useContext<unknown>(DocumentIdContext);
 
   return documentId;
 };

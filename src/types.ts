@@ -21,6 +21,7 @@ export interface UserFormData {
   name: string;
   email: string;
   phone: number;
+  selectedProduct: number;
 }
 
 export const Filter = {
