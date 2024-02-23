@@ -3,7 +3,6 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-// Define the validation schema using Yup
 const formSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   email: Yup.string()
@@ -15,11 +14,17 @@ const formSchema = Yup.object().shape({
     .required("Phone is required"),
 });
 
+const initialValues = {
+  name: "",
+  email: "",
+  phone: "",
+};
+
 const UserForm: React.FC = ({ doc, changeDoc }) => {
   return (
     <section className="flex h-screen pt-2 pb-60 bg-primary-50">
       <Formik
-        initialValues={doc.form}
+        initialValues={doc.form || initialValues}
         validationSchema={formSchema}
         onSubmit={(values, { setSubmitting }) => {
           changeDoc((doc) => (doc.form = values));
@@ -113,9 +118,9 @@ const UserForm: React.FC = ({ doc, changeDoc }) => {
         </Form>
       </Formik>
       <div className="bg-red-500 w-96 text-white p-10 text-xl flex flex-col h-screen">
-        <div>{doc.form.name}</div>
-        <div>{doc.form.email}</div>
-        <div>{doc.form.phone}</div>
+        <div>{doc.form && doc.form.name}</div>
+        <div>{doc.form && doc.form.email}</div>
+        <div>{doc.form && doc.form.phone}</div>
       </div>
     </section>
   );

@@ -6,6 +6,10 @@ import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-index
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
 import App from "./App";
 import { UserFormData } from "./types";
+import {
+  DocumentIdContext,
+  DocumentIdProvider,
+} from "./context/documentIdContext";
 import "./index.css";
 
 const repo = new Repo({
@@ -26,7 +30,9 @@ window.handle = handle;
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RepoContext.Provider value={repo}>
-      <App docUrl={docUrl} />
+      <DocumentIdProvider documentId={docUrl}>
+        <App />
+      </DocumentIdProvider>
     </RepoContext.Provider>
   </React.StrictMode>
 );
