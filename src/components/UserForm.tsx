@@ -20,8 +20,9 @@ const initialValues = {
   phone: "",
 };
 
+
+
 const UserForm: React.FC = ({ doc, changeDoc }) => {
-  console.log(doc);
   return (
     <section className="flex h-screen pt-2 pb-60 bg-primary-50">
       <Formik

@@ -2,12 +2,12 @@
 import React from "react";
 
 interface ProductCardProps {
-  id: number; // Added an id for identifying the product
+  id: number;
   image: string;
   title: string;
   description: string;
-  onSelect: (id: number) => void; // Callback function when a product is selected
-  isSelected: boolean; // State to indicate if the product is selected
+  onSelect: (id: number) => void;
+  isSelected: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <button
           onClick={() => onSelect(id)}
           className={`mt-4 w-full bg-red-500 text-white py-2 px-4 rounded ${
-            isSelected ? "bg-black" : "hover:bg-red-700"
+            isSelected ? "bg-gray-800" : "hover:bg-red-700"
           }`}
           disabled={isSelected}
         >

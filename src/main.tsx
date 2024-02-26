@@ -1,28 +1,31 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { isValidAutomergeUrl, Repo } from "@automerge/automerge-repo";
-import { BroadcastChannelNetworkAdapter } from "@automerge/automerge-repo-network-broadcastchannel";
-import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
+import {
+  isValidAutomergeUrl,
+  Repo,
+  AutomergeUrl,
+} from "@automerge/automerge-repo";
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
 import App from "./App";
 import { UserFormData } from "./types";
 import { DocumentIdProvider } from "./context/documentIdContext";
 import "./index.css";
 
+import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
+import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
+
 const repo = new Repo({
-  network: [new BroadcastChannelNetworkAdapter()],
+  network: [new BrowserWebSocketClientAdapter("wss://sync.automerge.org")],
   storage: new IndexedDBStorageAdapter(),
 });
 
-const rootDocUrl = `${document.location.hash.substr(1)}`;
-let handle;
-if (isValidAutomergeUrl(rootDocUrl)) {
-  handle = repo.find(rootDocUrl);
-} else {
-  handle = repo.create<{ form: UserFormData }>();
+function toAutomergeUrl(url: string): AutomergeUrl {
+  return url as AutomergeUrl;
 }
+
+// const handle = repo.create<{ form: UserFormData }>();
+const handle = repo.find(toAutomergeUrl("2b47BcwXm2LaDQwWgR1oCmqZoR2r"));
 const docUrl = (document.location.hash = handle.url);
-window.handle = handle;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

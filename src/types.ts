@@ -10,23 +10,12 @@ export interface State {
   form: AutomergeUrl[];
 }
 
-export interface TodoData {
-  url: AutomergeUrl;
-  content: string;
-  completed: boolean;
-}
-
 export interface UserFormData {
-  url: AutomergeUrl;
-  name: string;
-  email: string;
-  phone: number;
-  selectedProduct: number;
+  form: {
+    url: AutomergeUrl;
+    name: string;
+    email: string;
+    phone: number;
+    product: number;
+  };
 }
-
-export const Filter = {
-  all: "all",
-  incomplete: "incomplete",
-  completed: "completed",
-} as const;
-export type Filter = (typeof Filter)[keyof typeof Filter];

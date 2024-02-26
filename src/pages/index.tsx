@@ -1,4 +1,4 @@
-import ProductsPage from "./ProductsPage";
+import ProductsPage from "./ProductPage";
 import UserCardPage from "./UserCardPage";
 import UserFormPage from "./UserFormPage";
 
